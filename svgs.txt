@@ -1,0 +1,15 @@
+https://www.svgrepo.com/svg/506662/heart
+COLLECTION: Flexicon Sharp Interface Glyphs
+LICENSE: MIT License
+AUTHOR: blivesta
+
+
+https://www.svgrepo.com/svg/513448/comments
+COLLECTION: Responsive Glyph Icons
+LICENSE: CC Attribution License
+AUTHOR: pixelbazaar
+
+https://www.svgrepo.com/svg/514062/bulb
+COLLECTION: Batch Interface Oval Icons
+LICENSE: MIT License
+AUTHOR: Adam Whitcroft

@@ -1,0 +1,14 @@
+.nav-bar {
+    margin: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-bar button {
+    border-style: none;
+    background-color: transparent;
+    color: var(--text-colour);
+    text-decoration: underline var(--logo-colour);
+    font-weight: bold;
+}
+

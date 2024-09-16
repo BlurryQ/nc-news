@@ -1,0 +1,94 @@
+.page-title {
+    font-size: 2.3rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.articles {
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    grid-auto-rows: 23rem;
+    gap: 0.5vw;
+    text-align: center;
+}
+
+.article-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid var(--text-colour);
+    padding: 1rem;
+    width: 200px;
+    margin: auto;
+}
+
+.article-card * {
+    margin-bottom: 0.4rem;
+}
+
+.article-title {
+    width: 18ch;
+    font-size: 1.3rem;
+}
+
+.article-card img {
+    width: 200px;
+    border-radius: 0.5rem;
+}
+
+.article-author {
+    font-style: italic;
+    align-self: end;
+    margin-bottom: 1rem;
+}
+
+.likes-comments-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.like-button,
+.comment-button {
+    padding: 8px;
+    border-style: none;
+    font-weight: bold;
+    color: var(--background-colour);
+}
+
+.like-button {
+    background: url(./img/icons/heart.svg) no-repeat center;
+}
+
+.comment-button {
+    background: var(--comments-svg)
+}
+
+@media only screen and (max-width:1280px) {
+    .articles {
+        grid-template-columns: repeat(3, 33%);
+        gap: 0.5vw;
+    }
+}
+
+@media only screen and (max-width:920px) {
+    .articles {
+        grid-template-columns: repeat(2, 50%);
+        gap: 0.5vw;
+    }
+}
+
+@media only screen and (max-width:560px) {
+    .articles {
+        grid-template-columns: 100%;
+        gap: 0.5vw;
+    }
+
+    .page-title {
+        font-size: 1.7rem;
+    }
+}
+
+

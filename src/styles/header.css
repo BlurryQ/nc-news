@@ -1,0 +1,82 @@
+@font-face {
+    font-family: Montserrat;
+    src: url(./fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
+  }
+
+.header { 
+    font-family: Montserrat, system-ui, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.site-name {
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.logo {
+    color: var(--logo-colour);
+    letter-spacing: -0.1ch;
+}
+
+.header-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-message {
+    margin: 0rem 2rem;
+}
+
+.welcome-message {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.username {
+    font-style: italic;
+    font-weight: normal;
+    text-align: center;
+}
+
+.theme-toggle {
+    background: var(--theme-svg);
+    padding: 20px;
+    color: var(--background-colour);
+    font-weight: bold;
+    border-radius: 7px;
+}
+
+@media only screen and (max-width:950px) {
+    .username {
+        text-align: inherit;
+    }
+}
+
+@media only screen and (max-width:560px) {
+    .header { 
+        margin: 0rem;
+        padding: 0.5rem;
+    }
+
+
+    .site-name {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+
+    .logo {
+        color: var(--logo-colour);
+        letter-spacing: -0.1ch;
+    }
+
+    .welcome-message {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+}
