@@ -1,6 +1,7 @@
 import { useState, createContext } from 'react'
-export const ThemeContext = createContext();
 
+
+export const ThemeContext = createContext();
 export const ThemeProvider = ({children}) => {
   const [theme, setTheme] = useState("dark")
 
@@ -13,9 +14,8 @@ export const ThemeProvider = ({children}) => {
 
 
 export const UserContext = createContext();
-
 export const UserProvider = ({children}) => {
-  const [user, setUser] = useState("weegembump")
+  const [user, setUser] = useState()
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

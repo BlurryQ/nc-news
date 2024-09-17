@@ -13,3 +13,13 @@ https://www.svgrepo.com/svg/514062/bulb
 COLLECTION: Batch Interface Oval Icons
 LICENSE: MIT License
 AUTHOR: Adam Whitcroft
+
+https://www.svgrepo.com/svg/506800/burger-menu
+COLLECTION: Start Universal Tiny Oval Icons
+LICENSE: PD License
+AUTHOR: Salah Elimam
+
+https://www.svgrepo.com/svg/506795/burger-menu-right
+COLLECTION: Start Universal Tiny Oval Icons
+LICENSE: PD License
+AUTHOR: Salah Elimam

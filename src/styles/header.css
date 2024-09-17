@@ -1,10 +1,4 @@
-@font-face {
-    font-family: Montserrat;
-    src: url(./fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
-  }
-
 .header { 
-    font-family: Montserrat, system-ui, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,6 +38,16 @@
     text-align: center;
 }
 
+.sign-on {
+    color: var(--logo-colour);
+    border: 1px solid var(--logo-colour);
+    border-radius: 0.5rem;
+    font-weight: bold;
+    width: 50%;
+    margin: 0% 30%;
+    margin-top: 10%;
+}
+
 .theme-toggle {
     background: var(--theme-svg);
     padding: 20px;
@@ -56,6 +60,11 @@
     .username {
         text-align: inherit;
     }
+
+    .welcome-message {
+        font-weight: bold;
+        font-size: 1rem;
+    }
 }
 
 @media only screen and (max-width:560px) {
@@ -64,19 +73,50 @@
         padding: 0.5rem;
     }
 
-
     .site-name {
         font-size: 3rem;
-        font-weight: bold;
     }
 
     .logo {
         color: var(--logo-colour);
         letter-spacing: -0.1ch;
     }
+}
 
-    .welcome-message {
-        font-weight: bold;
-        font-size: 1rem;
+@media only screen and (max-width:450px) {
+    .site-name {
+        font-size: 3rem;
+    }
+
+    .theme-toggle { 
+        display: none;
+    }
+
+    .user-message {
+        display: none;
+    }
+
+    .welcome-message,
+    .username,
+    .sign-on {
+        font-size: 0.8rem;
+        width: 10ch;
+        margin: 0px;
+    }
+
+    #user-message.open {
+        display: block;
+        position: fixed;
+        top: 1%;
+        right: 20%;
+        background-color: var(--burger-background);
+        margin: 0rem;
+        z-index: 1;
+    }
+}
+
+@media only screen and (max-width:370px) {
+    .site-name {
+        font-size: calc(10vw + 5px);
     }
 }

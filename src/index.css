@@ -49,11 +49,18 @@ table {
 
 /* Meyer's CSS reset above */
 
+@font-face {
+  font-family: Montserrat;
+  src: url(./styles/fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
+}
+
 :root.dark {
   --background-colour: black;
   --text-colour: white;
   --comments-svg: url(./styles/img/icons/comments-dark.svg) no-repeat center;
   --theme-svg: url(./styles/img/icons/bulb-dark.svg) no-repeat center;
+  --burger-background: rgba(0, 0, 0, 0.7);
+  --page-not-found: url(./styles/img/404-dark.png);
 }
 
 :root.light {
@@ -61,11 +68,14 @@ table {
   --text-colour: black;
   --comments-svg: url(./styles/img/icons/comments-light.svg) no-repeat center;
   --theme-svg: url(./styles/img/icons/bulb-light.svg) no-repeat center;
+  --burger-background: rgba(255, 255, 255, 0.7);
+  --page-not-found: url(./styles/img/404-light.png);
 }
 
 :root {
   --logo-colour: red;
   
+  font-family: Montserrat, system-ui, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   background-color: var(--background-colour);
   color: var(--text-colour);
 }
