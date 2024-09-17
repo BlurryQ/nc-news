@@ -1,0 +1,97 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Meyer's CSS reset above */
+
+@font-face {
+  font-family: Montserrat;
+  src: url(./styles/fonts/Montserrat/Montserrat-VariableFont_wght.ttf);
+}
+
+:root.dark {
+  --background-colour: black;
+  --text-colour: white;
+  --comments-svg: url(./styles/img/icons/comments-dark.svg) no-repeat center;
+  --theme-svg: url(./styles/img/icons/bulb-dark.svg) no-repeat center;
+  --burger-background: rgba(0, 0, 0, 0.7);
+  --page-not-found: url(./styles/img/404-dark.png);
+}
+
+:root.light {
+  --background-colour: white;
+  --text-colour: black;
+  --comments-svg: url(./styles/img/icons/comments-light.svg) no-repeat center;
+  --theme-svg: url(./styles/img/icons/bulb-light.svg) no-repeat center;
+  --burger-background: rgba(255, 255, 255, 0.7);
+  --page-not-found: url(./styles/img/404-light.png);
+}
+
+:root {
+  --logo-colour: red;
+  
+  font-family: Montserrat, system-ui, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-color: var(--background-colour);
+  color: var(--text-colour);
+}
+
+html {
+  margin: 0px 15vw
+}
+
+@media only screen and (max-width:1370px) {
+  html {
+    margin: 0px 10vw
+  }
+}
+
+@media only screen and (max-width:880px) {
+  html {
+    margin: 0px 5vw
+  }
+}
