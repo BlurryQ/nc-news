@@ -55,7 +55,9 @@
     padding: 1ch;
 }
 
-.comment-form button {
+.comment-form button,
+.yes,
+.no {
     width: 10ch;
     padding: 0.3rem;
     border: 3px solid var(--logo-colour);
@@ -78,7 +80,8 @@
 }
 
 .article-vote-error,
-.comment-error {
+.comment-error,
+.confirm-comment-delete {
     background-color: var(--logo-colour);
     padding: 0.5rem;
     border-radius: var(--border-radius);
@@ -88,6 +91,10 @@
     align-self: center;
     margin-top: 1rem;
     color: white;
+}
+
+.confirm-comment-delete {
+    grid-column: span 3;
 }
 
 .comment-details {
@@ -119,9 +126,38 @@
     color: var(--background-colour);
 }
 
+
+.confirm {
+    display: flex;
+    gap: 2rem;
+    margin-left: 8rem;
+}
+
+.successful-deletion {
+    color: green;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 650px) {
+    .confirm {
+        margin-left: 2rem;
+    }
+
+    .yes,
+    .no {
+        font-size: 0.7rem;
+        width: 7ch;
+    }
+}
+
 @media only screen and (max-width: 500px) {
     .comment-details {
         font-size: 0.9rem;
+    }
+
+    .confirm {
+        flex-direction: column;
+        width: 3ch;
     }
 }
 

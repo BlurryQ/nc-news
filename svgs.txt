@@ -8,7 +8,6 @@ COLLECTION: Ionicons Sharp Interface Icons
 LICENSE: MIT License
 AUTHOR: Ionicons
 
-
 https://www.svgrepo.com/svg/513448/comments
 COLLECTION: Responsive Glyph Icons
 LICENSE: CC Attribution License
@@ -28,3 +27,8 @@ https://www.svgrepo.com/svg/506795/burger-menu-right
 COLLECTION: Start Universal Tiny Oval Icons
 LICENSE: PD License
 AUTHOR: Salah Elimam
+
+https://www.svgrepo.com/svg/491188/bin
+COLLECTION: Ikono Bold Line Icons
+LICENSE: MIT License
+AUTHOR: Will Kelly

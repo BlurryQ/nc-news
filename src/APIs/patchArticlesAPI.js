@@ -4,8 +4,8 @@ const articlesAPI = axios.create({
   baseURL: "https://nc-news-lbn1.onrender.com/api/articles",
 });
 
-export default function patchArticles(searchTerm, body) {
-  return articlesAPI.patch(`/${searchTerm}`, body).then((response) => {
+export default function patchArticles(articleID, body) {
+  return articlesAPI.patch(`/${articleID}`, body).then((response) => {
     return response.data;
   });
 }

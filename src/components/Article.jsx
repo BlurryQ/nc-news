@@ -1,12 +1,12 @@
 import "../styles/article.css"
 import { useContext, useEffect, useState } from 'react'
-import { GridLoader, RingLoader } from "react-spinners"
+import { RingLoader } from "react-spinners"
 import { useParams } from "react-router-dom"
 import { format } from "date-fns";
 import { UserContext } from "../contexts/Contexts"
 import getArticles from "../APIs/getArticleAPI"
-import postArticles from "../APIs/postArticlesAPI";
 import patchArticles from "../APIs/patchArticlesAPI";
+import Comments from "./Comments";
 
 
 export default function Article() {
@@ -14,13 +14,8 @@ export default function Article() {
     const [articleVotes, setArticleVotes] = useState(0)
     const [articleVotedOn, setArticleVotedOn] = useState(false)
     const [articleVoteError, setArticleVoteError] = useState(false)
-    const [comments, setComments] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [hasError, setHasError] = useState(false)
-    const [isLoadingComments, setIsLoadingComments] = useState(true)
-    const [hasCommentsErrored, setHasCommentsErrored] = useState(false)
-    const [hasPostingCommentError, setHasPostingCommentError] = useState(false)
-    const [commentBody, setCommentBody] = useState("")
     const {user} = useContext(UserContext)
     const {article_id} = useParams()
 
@@ -41,22 +36,6 @@ export default function Article() {
         })
     }, [])
 
-    useEffect(() => {
-        setIsLoadingComments(true)
-        setHasCommentsErrored(false)
-        getArticles(`${article_id}/comments`)
-        .then((data) => {
-            setIsLoadingComments(false)
-            setHasCommentsErrored(false)
-            setComments(data.comments)
-        })
-        .catch(err => {
-            console.error(err);
-            setIsLoadingComments(false)
-            setHasCommentsErrored(true)
-        })
-    },[])
-
     if(isLoading) return <RingLoader
         color="red"
         size={320}
@@ -65,34 +44,6 @@ export default function Article() {
     />
 
     if(hasError) return <section className="page-not-found"></section>
-
-    const commentHandler = (e) => {
-        setHasPostingCommentError(false)
-        const buttonType = e.target.type
-        if(buttonType === "submit") {
-            e.preventDefault()
-            e.target.disabled = true
-            if(!commentBody){
-            e.target.disabled = false
-            return setHasPostingCommentError("No message found, please try again")
-            }
-            postArticles(`${article_id}/comment`,
-                { username: user.username, body: commentBody }
-            )
-            .then((data) => {
-                e.target.disabled = false
-                setHasPostingCommentError(false)
-                comments.unshift(data.comment)
-                setCommentBody("")
-            })
-            .catch(err => {
-                e.target.disabled = false
-                console.error(err);
-                setHasPostingCommentError("Error posting comment, please try again later")
-            })
-        }
-        else setCommentBody(e.target.value)
-    }
 
     const articleVoteAdjustment = (buttonPressed, alreadyVoted) => {
         let adjust = 1
@@ -109,29 +60,35 @@ export default function Article() {
         return adjust
     }
 
+    const setVoteClass = (button, buttonPressed, alreadyVoted) => {
+        if(alreadyVoted) {
+            button.classList.remove("voted")
+            setArticleVotedOn(false)
+        }
+        else {
+            button.classList.add("voted")
+            setArticleVotedOn(buttonPressed)
+        }
+    }
+
     const likeHandler = (e) => {
         setArticleVoteError(false)
         if(!user.username) {
             setArticleVoteError("Please sign in to vote")
             return
         }
-        const buttonPressed = e.target.classList[0]
-        const alreadyVoted = e.target.classList[1]
+        const button = e.target
+        const buttonPressed = button.classList[0]
+        const alreadyVoted = button.classList[1]
+        setVoteClass(button, buttonPressed, alreadyVoted)
         const adjust = articleVoteAdjustment(buttonPressed, alreadyVoted)
         setArticleVotes(articleVotes + adjust)
         patchArticles(`${article_id}`,{ inc_votes: adjust })
         .then(() => {
             setArticleVoteError(false)
-            if(alreadyVoted) {
-                e.target.classList.remove("voted")
-                setArticleVotedOn(false)
-            }
-            else {
-                e.target.classList.add("voted")
-                setArticleVotedOn(buttonPressed)
-            }
         })
         .catch(err => {
+            setVoteClass(button, alreadyVoted)
             console.error(err);
             setArticleVoteError("Error has occured, please try again later")
             setArticleVotes(articleVotes)
@@ -155,40 +112,6 @@ export default function Article() {
             {articleVoteError ? <p className="article-vote-error">{articleVoteError}</p> : null}
         <section>{article.body}</section>
 
-        {hasCommentsErrored ? <p>Error loading comments...</p> : null}
-
-        {isLoadingComments ? <GridLoader
-            color="red"
-            size={20}
-            margin={20}
-            cssOverride={{margin: "auto"}}
-            aria-label="Loading Spinner"/> : null}
-
-        <section id="comments" className="comments-section">
-            {user.username ? <form className="comment-form" action="patch">
-                <label htmlFor="comment-body">Comment:</label>
-                {hasPostingCommentError ? <span className="comment-error">{hasPostingCommentError}</span> : null}
-                <textarea onChange={commentHandler} name="comment" cols="50" rows="5" value={commentBody}/>
-                <button onClick={commentHandler}>Post</button>
-            </form> : <p className="comment-form">Sign in to post a comment</p>}
-
-            {comments < 1 ? <div className="comment-container">
-                    <p className="comment-body">"No comments yet. Be the first to share your thoughts!"</p>
-                </div> 
-                : null}
-            {comments.map(comment=>{
-                return <div key={`${comment.comment_id}`} className="comment-container">
-                    <p className="comment-body">"{comment.body}"</p>
-                    <div className="comment-details">
-                        <p className="article-author">~ {comment.author}</p>
-                        <button className="like-button">{comment.votes >= 0 
-                                    ? comment.votes 
-                                    : comment.votes}</button>
-                        <button className="dislike-button"></button>
-                        <p>{format((comment.created_at), "HH:mm, dd MMM yy")}</p>
-                    </div>
-                </div>
-            })}
-        </section>
+        <Comments />
     </div>
 }

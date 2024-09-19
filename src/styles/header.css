@@ -18,8 +18,27 @@
 
 .logo {
     color: var(--logo-colour);
-    letter-spacing: -0.1ch;
+    letter-spacing: 0ch;
+    font-weight: 800;
 }
+
+
+.logo {
+    animation: rotate 5s infinite;
+}
+
+@keyframes rotate {
+    0% {text-shadow: 0px 0px var(--text-colour);}
+    35% {text-shadow: 0px 0px var(--text-colour);}
+    40% {text-shadow: -2px -1px var(--text-colour);}
+    45% {text-shadow: -4px -3px var(--text-colour);}
+    50% {text-shadow: -6px -5px var(--text-colour);}
+    55% {text-shadow: -4px -3px var(--text-colour);}
+    60% {text-shadow: -2px -1px var(--text-colour);}
+    65% {text-shadow: 0px -0px var(--text-colour);}
+    100% {text-shadow: 0px -0px var(--text-colour);}
+}
+
 
 .header-controls {
     display: flex;
@@ -54,7 +73,6 @@
     margin-top: 10%;
     height: 3ch
 }
-
 
 .theme-toggle {
     background: var(--theme-svg);

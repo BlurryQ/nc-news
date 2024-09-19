@@ -73,7 +73,8 @@
 
 .like-button,
 .dislike-button,
-.comment-tally {
+.comment-tally,
+.delete-comment {
     padding: 14px;
     border-style: none;
     font-weight: bold;
