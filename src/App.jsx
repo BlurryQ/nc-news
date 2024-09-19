@@ -14,6 +14,7 @@ export default function App() {
         <Header />
         <NavBar />
         <Routes>
+          <Route path="/" element={<Articles />} />
           <Route path="/articles" element={<Articles />} />
           <Route path="/articles/:article_id" element={<Article />} />
         </Routes>

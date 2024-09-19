@@ -15,15 +15,15 @@ export default function Header() {
     }
 
     const userHandler = () => {
-        user ? setUser("") : setUser("weegembump")
+        user.username ? setUser({username: ""}) : setUser({username: "weegembump"})
     }
 
     return <header className="header">
             <h1 className="site-name"><a href="/articles"><span className="logo">/\</span> NC News</a></h1>
             <span className="header-controls">
                 <div id="user-message" className="user-message">
-                    <p className="welcome-message">Welcome {user ? "back" : null}</p>
-                    {user ? <p onClick={userHandler} className="username">{user}</p> : <button className="sign-on" onClick={userHandler}>sign in</button>}
+                    <p className="welcome-message">Welcome {user.username ? "back" : null}</p>
+                    {user.username ? <p onClick={userHandler} className="username">{user.username}</p> : <button className="sign-on" onClick={userHandler}>sign in</button>}
                 </div>
                 <button className="theme-toggle" onClick={themeHandler}></button>
             </span>
