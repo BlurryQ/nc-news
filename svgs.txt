@@ -1,7 +1,12 @@
-https://www.svgrepo.com/svg/506662/heart
-COLLECTION: Flexicon Sharp Interface Glyphs
+https://www.svgrepo.com/svg/327080/heart-sharp
+COLLECTION: Ionicons Sharp Interface Icons
 LICENSE: MIT License
-AUTHOR: blivesta
+AUTHOR: Ionicons
+
+https://www.svgrepo.com/svg/327078/heart-dislike-sharp
+COLLECTION: Ionicons Sharp Interface Icons
+LICENSE: MIT License
+AUTHOR: Ionicons
 
 
 https://www.svgrepo.com/svg/513448/comments

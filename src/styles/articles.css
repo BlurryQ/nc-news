@@ -4,6 +4,11 @@
     margin-bottom: 1rem;
 }
 
+.articles a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 .articles {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -45,7 +50,7 @@
 
 .article-card img {
     width: 100%;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
 }
 
 .article-author {
@@ -62,24 +67,36 @@
 }
 
 .like-button,
-.comment-button {
-    padding: 10px;
+.dislike-button,
+.comment-tally {
+    padding: 14px;
     border-style: none;
     font-weight: bold;
     color: var(--background-colour);
+    text-decoration: none;
 }
 
 .like-button {
     background: url(./img/icons/heart.svg) no-repeat center;
 }
 
-.comment-button {
+.dislike-button {
+    background: url(./img/icons/heart-broken.svg) no-repeat center;
+}
+
+.voted {
+    border-bottom: 1px solid var(--logo-colour);
+    border-radius: var(--border-radius);
+}
+
+.comment-tally {
     background: var(--comments-svg)
 }
 
 .page-not-found {
     background: var(--page-not-found) no-repeat top;
     padding: 320px;
+    border-radius: var(--border-radius);
 }
 
 @media only screen and (max-width:1280px) {
@@ -118,8 +135,8 @@
     .article-card:nth-child(12n + 1),
     .article-card:nth-child(12n + 8) {
 
-        grid-column: span 1;
-        grid-row: span 1;
+        grid-column: auto;
+        grid-row: auto;
 
             .article-title {
                 font-size: 2.2rem;
@@ -129,7 +146,7 @@
     .article-card:nth-child(18n + 1),
     .article-card:nth-child(18n + 12) {
         grid-column: span 2;
-        grid-row: span 1;
+        grid-row: auto;
     
             .article-title {
                 font-size: 1.6rem;
