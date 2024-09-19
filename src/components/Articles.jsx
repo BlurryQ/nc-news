@@ -32,17 +32,11 @@ export default function Articles() {
 
     if(hasError) return <section className="page-not-found"></section>
       
-    const articleHandler = (e) => {
-        let data = ""
-        if(e.target.children.length === 4) data = e.target.attributes[1].nodeValue
-        else data = e.target.parentElement.attributes[1].nodeValue
-    }
-
     return <>
     <h2 className="page-title">Currently displaying all recent articles</h2>
     <article className="articles">
         {articles.map(article => {
-            return <a href={`/articles/${article.article_id}`} className="article-card" onClick={articleHandler} key={article.article_id}>
+            return <a href={`/articles/${article.article_id}`} className="article-card" key={article.article_id}>
                 <h3 className="article-title">{article.title}</h3>
                 <img src={article.article_img_url} alt={article.title} />
                 <p className="article-author">~ {article.author}</p>

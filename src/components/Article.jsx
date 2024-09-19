@@ -1,29 +1,35 @@
 import "../styles/article.css"
-import { useEffect, useState } from 'react'
-import { RingLoader, GridLoader } from "react-spinners"
+import { useContext, useEffect, useState } from 'react'
+import { GridLoader, RingLoader } from "react-spinners"
 import { useParams } from "react-router-dom"
 import { format } from "date-fns";
+import { UserContext } from "../contexts/Contexts"
 import getArticles from "../APIs/getArticleAPI"
+import patchArticles from "../APIs/patchArticlesAPI";
 
 
 export default function Article() {
     const [article, setArticle] = useState([])
+    const [articleVotes, setArticleVotes] = useState(0)
+    const [articleVotedOn, setArticleVotedOn] = useState(false)
+    const [articleVoteError, setArticleVoteError] = useState(false)
     const [comments, setComments] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [hasError, setHasError] = useState(false)
     const [isLoadingComments, setIsLoadingComments] = useState(true)
     const [hasCommentsErrored, setHasCommentsErrored] = useState(false)
-
+    const {user} = useContext(UserContext)
     const {article_id} = useParams()
 
     useEffect(() => {
         setIsLoading(true)
         setHasError(false)
-        getArticles(`${article_id}`)
+        getArticles(article_id)
         .then((data)=>{
             setIsLoading(false)
             setHasError(false)
             setArticle(data.article)
+            setArticleVotes(data.article.votes)
         })
         .catch(err => {
             console.error(err);
@@ -57,7 +63,52 @@ export default function Article() {
 
     if(hasError) return <section className="page-not-found"></section>
 
-return <div className="article-container">
+    const articleVoteAdjustment = (buttonPressed, alreadyVoted) => {
+        let adjust = 1
+        if(buttonPressed === "dislike-button") adjust = -1;
+        if(alreadyVoted) {
+            adjust = -1
+            if(buttonPressed === "dislike-button") adjust = 1;
+        }
+        if(articleVotedOn && buttonPressed !== articleVotedOn) {
+            const oppositeButton = document.getElementById(articleVotedOn)
+            oppositeButton.classList.remove("voted")
+            adjust = adjust === 1 ? 2 : -2
+        }
+        return adjust
+    }
+
+    const likeHandler = (e) => {
+        setArticleVoteError(false)
+        if(!user.username) {
+            setArticleVoteError("Please sign in to vote")
+            return
+        }
+        const buttonPressed = e.target.classList[0]
+        const alreadyVoted = e.target.classList[1]
+        const adjust = articleVoteAdjustment(buttonPressed, alreadyVoted)
+        setArticleVotes(articleVotes + adjust)
+        patchArticles(`${article_id}`,{ inc_votes: adjust })
+        .then(() => {
+            setArticleVoteError(false)
+            if(alreadyVoted) {
+                e.target.classList.remove("voted")
+                setArticleVotedOn(false)
+            }
+            else {
+                e.target.classList.add("voted")
+                setArticleVotedOn(buttonPressed)
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            setArticleVoteError("Error has occured, please try again later")
+            setArticleVotes(articleVotes)
+        })
+    }
+
+
+    return <div className="article-container">
         <h2 className="page-title">{article.title}</h2>
         <img className="article-img" src={article.article_img_url} alt={article.title} />
         <div className="article-details">
@@ -66,10 +117,11 @@ return <div className="article-container">
             <p className="article-author">~ {article.author}</p>
         </div>
             <div className="likes-comments">
-                <button className="like-button">{article.votes}</button>
+                <button onClick={likeHandler} id="like-button" className="like-button">{articleVotes}</button>
                 <a href="#comments" className="comment-tally">{article.comment_count}</a>
-                <button className="dislike-button"></button>
+                <button onClick={likeHandler} id="dislike-button" className="dislike-button"></button>
             </div>
+            {articleVoteError ? <p className="article-vote-error">{articleVoteError}</p> : null}
         <section>{article.body}</section>
 
         {hasCommentsErrored ? <p>Error loading comments...</p> : null}
@@ -82,6 +134,11 @@ return <div className="article-container">
             aria-label="Loading Spinner"/> : null}
 
         <section id="comments" className="comments-section">
+
+            {comments < 1 ? <div className="comment-container">
+                    <p className="comment-body">"No comments yet. Be the first to share your thoughts!"</p>
+                </div> 
+                : null}
             {comments.map(comment=>{
                 return <div key={`${comment.comment_id}`} className="comment-container">
                     <p className="comment-body">"{comment.body}"</p>
