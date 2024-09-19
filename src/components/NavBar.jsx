@@ -29,11 +29,6 @@ export default function NavBar() {
         }
     }
 
-    const themeHandler = () => {
-        setTheme(theme === "dark" ? "light" : "dark")
-        root.className = theme
-    }
-
     useEffect(()=>{
         setIsLoading(true)
         setHasError(false)
@@ -45,14 +40,22 @@ export default function NavBar() {
         })
         .catch(err => {
             console.error(err);
-            setHasError(true)
             setIsLoading(false)
+            setHasError(true)
         })
     }, [])
+
+    const themeHandler = () => {
+        setTheme(theme === "dark" ? "light" : "dark")
+        root.className = theme
+    }
 
     if(isLoading) return <BarLoader
         color="red"
         aria-label="Loading Spinner"
+        cssOverride={{margin: "auto",
+                    width: "90%"
+        }}
       />
 
     if(hasError) return <span>Error loading topics...</span>

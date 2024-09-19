@@ -6,6 +6,11 @@
     padding: 1rem;
 }
 
+.header a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 .site-name {
     font-size: 4rem;
     font-weight: bold;
@@ -40,10 +45,10 @@
 
 .sign-on {
     color: var(--logo-colour);
-    border: 1px solid var(--logo-colour);
-    border-radius: 0.5rem;
+    border: 3px solid var(--logo-colour);
+    border-radius: var(--border-radius);
     font-weight: bold;
-    width: 50%;
+    width: 60%;
     margin: 0% 30%;
     margin-top: 10%;
 }
@@ -53,7 +58,7 @@
     padding: 20px;
     color: var(--background-colour);
     font-weight: bold;
-    border-radius: 7px;
+    border-radius: var(--border-radius);
 }
 
 @media only screen and (max-width:950px) {

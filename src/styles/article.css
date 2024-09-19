@@ -1,0 +1,118 @@
+.page-title {
+    font-weight: bold;
+}
+
+.article-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.article-img {
+    border-radius: var(--border-radius);
+    width: 80%;
+    align-self: center;
+}
+
+.article-details {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.likes-comments {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.comments-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid var(--text-colour);
+    border-radius: var(--border-radius);
+    margin: 2rem 0;
+}
+
+.comment-form {
+    border-bottom: 1px solid var(--text-colour);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.comment-form textarea {
+    font-family: Montserrat, system-ui, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: 550;
+    width: 90%;
+    max-width: 100%;
+    border-radius: var(--border-radius);
+    align-self: center;
+    margin: 1rem;
+    padding: 1ch;
+}
+
+.comment-form button {
+    width: 10ch;
+    padding: 0.3rem;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+    border-color: var(--logo-colour);
+    align-self: center;
+}
+
+.comment-container {
+    padding: 1rem;
+    border-bottom: 2px dashed var(--text-colour);
+}
+
+.comment-container:last-child {
+    border-bottom: 2px solid shed var(--text-colour);
+}
+
+.comment-body {
+    padding-bottom: 1rem;
+}
+
+.comment-error {
+    background-color: var(--logo-colour);
+    padding: 0.5rem;
+    border-radius: var(--border-radius);
+    font-weight: bold;
+}
+
+.comment-details {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 2fr;
+    justify-items: flex-end;
+    align-items: center;
+}
+
+.comment-details .article-author {
+    justify-self: flex-start;
+}
+
+.comment-details .like-button {
+    justify-self: center;
+}
+
+.comment-details .dislike-button {
+    justify-self: center;
+    margin-right: 0.7rem;
+    margin-left: 0.5rem;
+}
+
+.hide {
+    color: var(--background-colour);
+}
+
+@media only screen and (max-width: 500px) {
+    .comment-details {
+        font-size: 0.9rem;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .comment-details {
+        font-size: 0.8rem;
+    }
+}
