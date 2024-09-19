@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom"
 import { format } from "date-fns";
 import { UserContext } from "../contexts/Contexts"
 import getArticles from "../APIs/getArticleAPI"
+import postArticles from "../APIs/postArticlesAPI";
 import patchArticles from "../APIs/patchArticlesAPI";
 
 
@@ -18,6 +19,8 @@ export default function Article() {
     const [hasError, setHasError] = useState(false)
     const [isLoadingComments, setIsLoadingComments] = useState(true)
     const [hasCommentsErrored, setHasCommentsErrored] = useState(false)
+    const [hasPostingCommentError, setHasPostingCommentError] = useState(false)
+    const [commentBody, setCommentBody] = useState("")
     const {user} = useContext(UserContext)
     const {article_id} = useParams()
 
@@ -62,6 +65,34 @@ export default function Article() {
     />
 
     if(hasError) return <section className="page-not-found"></section>
+
+    const commentHandler = (e) => {
+        setHasPostingCommentError(false)
+        const buttonType = e.target.type
+        if(buttonType === "submit") {
+            e.preventDefault()
+            e.target.disabled = true
+            if(!commentBody){
+            e.target.disabled = false
+            return setHasPostingCommentError("No message found, please try again")
+            }
+            postArticles(`${article_id}/comment`,
+                { username: user.username, body: commentBody }
+            )
+            .then((data) => {
+                e.target.disabled = false
+                setHasPostingCommentError(false)
+                comments.unshift(data.comment)
+                setCommentBody("")
+            })
+            .catch(err => {
+                e.target.disabled = false
+                console.error(err);
+                setHasPostingCommentError("Error posting comment, please try again later")
+            })
+        }
+        else setCommentBody(e.target.value)
+    }
 
     const articleVoteAdjustment = (buttonPressed, alreadyVoted) => {
         let adjust = 1
@@ -134,6 +165,12 @@ export default function Article() {
             aria-label="Loading Spinner"/> : null}
 
         <section id="comments" className="comments-section">
+            {user.username ? <form className="comment-form" action="patch">
+                <label htmlFor="comment-body">Comment:</label>
+                {hasPostingCommentError ? <span className="comment-error">{hasPostingCommentError}</span> : null}
+                <textarea onChange={commentHandler} name="comment" cols="50" rows="5" value={commentBody}/>
+                <button onClick={commentHandler}>Post</button>
+            </form> : <p className="comment-form">Sign in to post a comment</p>}
 
             {comments < 1 ? <div className="comment-container">
                     <p className="comment-body">"No comments yet. Be the first to share your thoughts!"</p>

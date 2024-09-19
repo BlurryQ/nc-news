@@ -40,6 +40,10 @@
     padding: 1rem;
 }
 
+.comment-form label {
+    font-weight: bold;
+}
+
 .comment-form textarea {
     font-family: Montserrat, system-ui, 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: 550;
@@ -54,9 +58,9 @@
 .comment-form button {
     width: 10ch;
     padding: 0.3rem;
+    border: 3px solid var(--logo-colour);
     border-radius: var(--border-radius);
     font-weight: bold;
-    border-color: var(--logo-colour);
     align-self: center;
 }
 
@@ -79,12 +83,11 @@
     padding: 0.5rem;
     border-radius: var(--border-radius);
     font-weight: bold;
-}
-
-.article-vote-error {
-    align-self: center;
     text-align: center;
     width: 80%;
+    align-self: center;
+    margin-top: 1rem;
+    color: white;
 }
 
 .comment-details {

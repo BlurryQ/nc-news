@@ -43,15 +43,18 @@
     text-align: center;
 }
 
-.sign-on {
+.log-on,
+.log-off {
     color: var(--logo-colour);
     border: 3px solid var(--logo-colour);
     border-radius: var(--border-radius);
     font-weight: bold;
-    width: 60%;
+    width: 10ch;
     margin: 0% 30%;
     margin-top: 10%;
+    height: 3ch
 }
+
 
 .theme-toggle {
     background: var(--theme-svg);
@@ -103,17 +106,18 @@
 
     .welcome-message,
     .username,
-    .sign-on {
+    .log-on,
+    .log-off {
         font-size: 0.8rem;
-        width: 10ch;
-        margin: 0px;
+        margin: auto
+        
     }
 
     #user-message.open {
         display: block;
         position: fixed;
         top: 1%;
-        right: 20%;
+        right: 24%;
         background-color: var(--burger-background);
         margin: 0rem;
         z-index: 1;

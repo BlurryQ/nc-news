@@ -23,7 +23,8 @@ export default function Header() {
             <span className="header-controls">
                 <div id="user-message" className="user-message">
                     <p className="welcome-message">Welcome {user.username ? "back" : null}</p>
-                    {user.username ? <p onClick={userHandler} className="username">{user.username}</p> : <button className="sign-on" onClick={userHandler}>sign in</button>}
+                    {user.username ? <p onClick={userHandler} className="username">{user.username}</p> : <button className="log-on" onClick={userHandler}>Log on</button>}
+                    {user.username ? <button className="log-off" onClick={userHandler}>Log off</button> : null}
                 </div>
                 <button className="theme-toggle" onClick={themeHandler}></button>
             </span>
