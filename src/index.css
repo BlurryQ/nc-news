@@ -57,6 +57,7 @@ table {
 :root.dark {
   --background-colour: black;
   --text-colour: white;
+  --shadow-colour: rgba(255, 255, 255, 0.7);
   --comments-svg: url(./styles/img/icons/comments-dark.svg) no-repeat center;
   --theme-svg: url(./styles/img/icons/bulb-dark.svg) no-repeat center;
   --burger-background: rgba(0, 0, 0, 0.7);
@@ -66,6 +67,7 @@ table {
 :root.light {
   --background-colour: whitesmoke;
   --text-colour: black;
+  --shadow-colour: rgba(0, 0, 0, 0.7);
   --comments-svg: url(./styles/img/icons/comments-light.svg) no-repeat center;
   --theme-svg: url(./styles/img/icons/bulb-light.svg) no-repeat center;
   --burger-background: rgba(255, 255, 255, 0.7);

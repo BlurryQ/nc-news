@@ -27,6 +27,11 @@
     justify-items: center;
 }
 
+.article-card:hover {
+    box-shadow: -2px 2px 4px var(--shadow-colour),
+    -5px 5px 8px 4px var(--shadow-colour);
+}
+
 .article-card * {
     padding-bottom: 0.5rem;
 }
