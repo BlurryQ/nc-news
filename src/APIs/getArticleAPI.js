@@ -5,7 +5,7 @@ const articlesAPI = axios.create({
 });
 
 export default function getArticles(searchTerm) {
-  return articlesAPI.get(`/${searchTerm}`).then((response) => {
+  return articlesAPI.get(`${searchTerm}`).then((response) => {
     return response.data;
   });
 }

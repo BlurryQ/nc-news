@@ -1,6 +1,6 @@
 import '../styles/header.css'
 import { ThemeContext, UserContext } from "../contexts/Contexts"
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 export default function Header() {
     const { theme, setTheme } = useContext(ThemeContext)
@@ -10,11 +10,19 @@ export default function Header() {
     root.className = theme
 
     const themeHandler = () => {
-        setTheme(theme === "dark" ? "light" : "dark")
+        const newTheme = theme === "dark" ? "light" : "dark"
+        setTheme(newTheme)
+        localStorage.setItem("theme", newTheme);
         root.className = theme
     }
 
     const userHandler = () => {
+        /* --- BELOW WORKING BUT UI NOT UPDATING WHEN USER SIGNED ON --- */
+        // const userLoggedIn = user.username === "" ? {username: "weegembump"} : {username: ""}
+        // const stringified = JSON.stringify(userLoggedIn)
+        // setUser(stringified)
+        // localStorage.setItem("user", stringified);
+
         user.username ? setUser({username: ""}) : setUser({username: "weegembump"})
     }
 
