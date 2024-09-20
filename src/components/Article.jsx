@@ -83,15 +83,18 @@ export default function Article() {
         setVoteClass(button, buttonPressed, alreadyVoted)
         const adjust = articleVoteAdjustment(buttonPressed, alreadyVoted)
         setArticleVotes(articleVotes + adjust)
-        patchArticles(`${article_id}`,{ inc_votes: adjust })
+        patchArticles(`--${article_id}`,{ inc_votes: adjust })
         .then(() => {
             setArticleVoteError(false)
         })
         .catch(err => {
-            setVoteClass(button, alreadyVoted)
+            setVoteClass(button, buttonPressed, alreadyVoted)
+            const voteButtons = document.getElementsByName("vote")
+            voteButtons.forEach(button => button.classList.remove("voted"))
             console.error(err);
             setArticleVoteError("Error has occured, please try again later")
             setArticleVotes(articleVotes)
+
         })
     }
 
@@ -100,14 +103,14 @@ export default function Article() {
         <h2 className="page-title">{article.title}</h2>
         <img className="article-img" src={article.article_img_url} alt={article.title} />
         <div className="article-details">
-            <p>{article.topic}</p>
+            <p>Topic: {article.topic}</p>
             <p>{format((article.created_at), "EEEE do MMMM yyyy")}</p>
             <p className="article-author">~ {article.author}</p>
         </div>
             <div className="likes-comments">
-                <button onClick={likeHandler} id="like-button" className="like-button">{articleVotes}</button>
+                <button onClick={likeHandler} name="vote" id="like-button" className="like-button">{articleVotes}</button>
                 <a href="#comments" className="comment-tally">{article.comment_count}</a>
-                <button onClick={likeHandler} id="dislike-button" className="dislike-button"></button>
+                <button onClick={likeHandler} name="vote" id="dislike-button" className="dislike-button"></button>
             </div>
             {articleVoteError ? <p className="article-vote-error">{articleVoteError}</p> : null}
         <section>{article.body}</section>

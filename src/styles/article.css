@@ -17,6 +17,11 @@
 .article-details {
     display: flex;
     justify-content: space-evenly;
+    gap: 1rem
+}
+
+.article-details .article-author {
+    padding-right: 0;
 }
 
 .likes-comments {
@@ -119,14 +124,29 @@
     color: var(--background-colour);
 }
 
-@media only screen and (max-width: 500px) {
-    .comment-details {
+@media only screen and (max-width: 580px) {
+    .article-details {
         font-size: 0.9rem;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .comment-details,
+    .article-details .article-author {
+        font-size: 0.9rem;
+    }
+
+    .article-details {
+        font-size: 0.7rem;
     }
 }
 
 @media only screen and (max-width: 400px) {
     .comment-details {
         font-size: 0.8rem;
+    }
+
+    .article-details {
+        font-size: 0.6rem;
     }
 }

@@ -16,12 +16,9 @@ export const ThemeProvider = ({children}) => {
 
 export const UserContext = createContext();
 export const UserProvider = ({children}) => {
-/* --- BELOW WORKING BUT UI NOT UPDATING WHEN USER SIGNED ON --- */
-  // const savedUserStr = localStorage.getItem("user");
-  // const savedUser = JSON.parse(savedUserStr)
-  // const [user, setUser] = useState(savedUser ? savedUser : {username: ""})
-
-  const [user, setUser] = useState({username: ""})
+  const savedUserStr = localStorage.getItem("user");
+  const savedUser = JSON.parse(savedUserStr)
+  const [user, setUser] = useState(savedUser ? savedUser : {username: ""})
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
