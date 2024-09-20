@@ -7,6 +7,7 @@ import { UserContext } from "../contexts/Contexts"
 import getArticles from "../APIs/getArticleAPI"
 import patchArticles from "../APIs/patchArticlesAPI";
 import Comments from "./Comments";
+import voteAdjustment from "../utils/voteAdjustment"
 
 
 export default function Article() {
@@ -45,21 +46,6 @@ export default function Article() {
 
     if(hasError) return <section className="page-not-found"></section>
 
-    const articleVoteAdjustment = (buttonPressed, alreadyVoted) => {
-        let adjust = 1
-        if(buttonPressed === "dislike-button") adjust = -1;
-        if(alreadyVoted) {
-            adjust = -1
-            if(buttonPressed === "dislike-button") adjust = 1;
-        }
-        if(articleVotedOn && buttonPressed !== articleVotedOn) {
-            const oppositeButton = document.getElementById(articleVotedOn)
-            oppositeButton.classList.remove("voted")
-            adjust = adjust === 1 ? 2 : -2
-        }
-        return adjust
-    }
-
     const setVoteClass = (button, buttonPressed, alreadyVoted) => {
         if(alreadyVoted) {
             button.classList.remove("voted")
@@ -81,9 +67,9 @@ export default function Article() {
         const buttonPressed = button.classList[0]
         const alreadyVoted = button.classList[1]
         setVoteClass(button, buttonPressed, alreadyVoted)
-        const adjust = articleVoteAdjustment(buttonPressed, alreadyVoted)
+        const adjust = voteAdjustment(buttonPressed, alreadyVoted, articleVotedOn)
         setArticleVotes(articleVotes + adjust)
-        patchArticles(`--${article_id}`,{ inc_votes: adjust })
+        patchArticles(`${article_id}`,{ inc_votes: adjust })
         .then(() => {
             setArticleVoteError(false)
         })

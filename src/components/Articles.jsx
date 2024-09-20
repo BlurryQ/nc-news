@@ -44,6 +44,7 @@ export default function Articles() {
         color="red"
         size={320}
         aria-label="Loading Spinner"
+        cssOverride={{margin: "auto"}}
     />
 
     if(hasError) return <section className="page-not-found"></section>
