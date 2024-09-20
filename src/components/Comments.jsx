@@ -7,6 +7,8 @@ import { UserContext } from "../contexts/Contexts"
 import getArticles from "../APIs/getArticleAPI"
 import postArticles from "../APIs/postArticlesAPI";
 import deleteArticles from "../APIs/deleteComment";
+import patchComment from "../APIs/patchCommentAPI";
+import voteAdjustment from "../utils/voteAdjustment"
 
 export default function Comments() {
     const [comments, setComments] = useState([])
@@ -105,6 +107,42 @@ export default function Comments() {
             setCheckDeleteComment(false)
         }))
     },[deleteComment])
+
+
+
+    const [commentVotes, setCommentVotes] = useState(0)
+    const [commentVotedOn, setArticleVotedOn] = useState(false)
+    const [commentVoteError, setCommentVoteError] = useState(false)
+    
+
+
+    const likeHandler = (e) => {
+        const comment_id = 0; //need to get this
+        setCommentVoteError(false)
+        if(!user.username) {
+            setCommentVoteError("Please sign in to vote")
+            return
+        }
+        const button = e.target
+        const buttonPressed = button.classList[0]
+        const alreadyVoted = button.classList[1]
+        setVoteClass(button, buttonPressed, alreadyVoted)
+        const adjust = voteAdjustment(buttonPressed, alreadyVoted, commentVotedOn)
+        setCommentVotes(commentVotes + adjust)
+        patchComment(`${comment_id}`,{ inc_votes: adjust })
+        .then(() => {
+            setCommentVoteError(false)
+        })
+        .catch(err => {
+            setVoteClass(button, buttonPressed, alreadyVoted)
+            const voteButtons = document.getElementsByName(`comment-vote-${comment_id}`)
+            voteButtons.forEach(button => button.classList.remove("voted"))
+            console.error(err);
+            setCommentVoteError("Error has occured, please try again later")
+            setCommentVotes(commentVotes)
+        })
+    }
+
 
     return <>
         {hasCommentsErrored ? <p>Error loading comments...</p> : null}
