@@ -83,7 +83,8 @@
 }
 
 .article-vote-error,
-.comment-error {
+.comment-error,
+.comment-vote-error {
     background-color: var(--logo-colour);
     padding: 0.5rem;
     border-radius: var(--border-radius);

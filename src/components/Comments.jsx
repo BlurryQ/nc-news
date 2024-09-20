@@ -114,10 +114,29 @@ export default function Comments() {
     const [commentVotedOn, setArticleVotedOn] = useState(false)
     const [commentVoteError, setCommentVoteError] = useState(false)
     
+    //setCommentVotes//need to get votes for comment 
 
+    /* can we import the below func? */
+    const setVoteClass = (button, buttonPressed, alreadyVoted) => {
+        if(alreadyVoted) {
+            button.classList.remove("voted")
+            setArticleVotedOn(false)
+        }
+        else {
+            button.classList.add("voted")
+            setArticleVotedOn(buttonPressed)
+        }
+    }
+
+    console.log(commentID.current);
 
     const likeHandler = (e) => {
-        const comment_id = 0; //need to get this
+        const IDandVotes = e.target.value 
+        let [currentCommentID, commentVotes] = IDandVotes.split(" ")
+        currentCommentID = Number(currentCommentID)
+        commentVotes = Number(commentVotes)
+        commentID.current = currentCommentID
+        setCommentVotes(commentVotes)
         setCommentVoteError(false)
         if(!user.username) {
             setCommentVoteError("Please sign in to vote")
@@ -129,13 +148,13 @@ export default function Comments() {
         setVoteClass(button, buttonPressed, alreadyVoted)
         const adjust = voteAdjustment(buttonPressed, alreadyVoted, commentVotedOn)
         setCommentVotes(commentVotes + adjust)
-        patchComment(`${comment_id}`,{ inc_votes: adjust })
+        patchComment(`${commentID.current}`,{ inc_votes: adjust })
         .then(() => {
             setCommentVoteError(false)
         })
         .catch(err => {
             setVoteClass(button, buttonPressed, alreadyVoted)
-            const voteButtons = document.getElementsByName(`comment-vote-${comment_id}`)
+            const voteButtons = document.getElementsByName(`comment-vote-${commentID.current}`)
             voteButtons.forEach(button => button.classList.remove("voted"))
             console.error(err);
             setCommentVoteError("Error has occured, please try again later")
@@ -191,8 +210,10 @@ export default function Comments() {
                         <div></div>
                         </> :
                             <>
-                            <button className="like-button">{comment.votes}</button>
-                            <button className="dislike-button"></button>
+                            {/* need a check for if commentID.currrent === comment pressed then do the like */}
+                            <button onClick={likeHandler} value={`${comment.comment_id} ${comment.votes}`} name="vote" className="like-button">{comment.votes}</button>
+                            <button onClick={likeHandler} value={`${comment.comment_id} ${comment.votes}`} name="vote" className="dislike-button"></button>
+                            {commentVoteError ? <p className="comment-vote-error">{commentVoteError}</p> : null}
                         </>
                         }
                         <p>{format((comment.created_at), "HH:mm, dd MMM yy")}</p>
