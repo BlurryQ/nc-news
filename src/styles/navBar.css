@@ -4,7 +4,7 @@
     gap: 1rem;
 }
 
-#nav-bar button {
+#nav-bar a {
     border-style: none;
     background-color: transparent;
     color: var(--text-colour);

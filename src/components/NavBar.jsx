@@ -1,4 +1,4 @@
-import '../styles/NavBar.css'
+import '../styles/navBar.css'
 import { useContext } from 'react'
 import { ThemeContext } from "../contexts/Contexts"
 import { useEffect, useState } from 'react'
@@ -64,7 +64,7 @@ export default function NavBar() {
         <button className='burger-menu' onClick={burgerHandler}></button>
         <button id="theme-toggle" className="theme-toggle" onClick={themeHandler}></button>
         <nav id='nav-bar'>
-            {topics.map(topic => <button key={topic.slug}>{topic.description}</button>)}
+            {topics.map(topic => <a href={`/articles?topic=${topic.slug}`} key={topic.slug}>{topic.description}</a>)}
         </nav>
     </>
 }

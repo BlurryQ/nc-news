@@ -2,16 +2,19 @@ import "../styles/articles.css"
 import { useEffect, useState } from 'react'
 import { RingLoader } from "react-spinners"
 import getArticles from "../APIs/getArticleAPI"
+import { useSearchParams } from "react-router-dom"
 
 export default function Articles() {
     const [articles, setArticles] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [hasError, setHasError] = useState(false)
+    const [searchParams] = useSearchParams();
+    const topic_slug = searchParams.get("topic");
 
     useEffect(() => {
         setIsLoading(true)
         setHasError(false)
-        getArticles("?sort_by=created_at")
+        getArticles(topic_slug ? `?topic=${topic_slug}` : "?sort_by=created_at")
         .then((data)=>{
             setIsLoading(false)
             setHasError(false)
@@ -33,7 +36,7 @@ export default function Articles() {
     if(hasError) return <section className="page-not-found"></section>
       
     return <>
-    <h2 className="page-title">Currently displaying all recent articles</h2>
+    <h2 className="page-title">Currently displaying all recent {topic_slug ? topic_slug : null} articles</h2>
     <article className="articles">
         {articles.map(article => {
             return <a href={`/articles/${article.article_id}`} className="article-card" key={article.article_id}>
