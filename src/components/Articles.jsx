@@ -8,13 +8,19 @@ export default function Articles() {
     const [articles, setArticles] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [hasError, setHasError] = useState(false)
+    const [sortFilter, setSortFilter] = useState("created_at")
+    const [orderFilter, setOrderFilter] = useState("desc")
     const [searchParams] = useSearchParams();
     const topic_slug = searchParams.get("topic");
 
     useEffect(() => {
         setIsLoading(true)
         setHasError(false)
-        getArticles(topic_slug ? `?topic=${topic_slug}` : "?sort_by=created_at")
+        let searchTerm = "?"
+        if(topic_slug) searchTerm += `topic=${topic_slug}&`
+        if(sortFilter) searchTerm += `sort_by=${sortFilter}&`
+        if(orderFilter) searchTerm += `order=${orderFilter}&`
+        getArticles(searchTerm)
         .then((data)=>{
             setIsLoading(false)
             setHasError(false)
@@ -25,7 +31,14 @@ export default function Articles() {
             setIsLoading(false)
             setHasError(true)
         })
-    },[])
+    },[sortFilter, orderFilter])
+
+
+    const filterHandler = (e) => {
+        const filter = e.target.value
+        if(filter === "asc" || filter === "desc") return setOrderFilter(filter)
+        setSortFilter(filter)
+    }
       
     if(isLoading) return <RingLoader
         color="red"
@@ -35,8 +48,37 @@ export default function Articles() {
 
     if(hasError) return <section className="page-not-found"></section>
       
+    const optionNames = {
+        created_at: "Created at",
+        votes: "Votes",
+        comment_count: "Comments",
+        asc: sortFilter === "created_at" ? "Oldest first" : "Smallest first",
+        desc: sortFilter === "created_at" ? "Most recent first" : "Largest first",
+    }
+
     return <>
     <h2 className="page-title">Currently displaying all recent {topic_slug ? topic_slug : null} articles</h2>
+    
+    <div className="filters">
+        <div className="sort-filter">
+            <label  htmlFor="sort">Sort by:</label>
+                <select onClick={filterHandler} id="sort">
+                <option value={sortFilter}>Current: {optionNames[sortFilter]}</option>
+                <option value="created_at">Created at</option>
+                <option value="votes">Votes</option>
+                <option value="comment_count">Comments</option>
+                </select>
+        </div>
+        <div className="order-filter">
+            <label htmlFor="order">Ordered by:</label>
+                <select onClick={filterHandler} id="order">
+                <option value={orderFilter}>Current: {optionNames[orderFilter]}</option>
+                <option value="desc">{sortFilter === "created_at" ? "Most recent first" : "Largest first"}</option>
+                <option value="asc">{sortFilter === "created_at" ? "Oldest first" : "Smallest first"}</option>
+                </select>
+        </div>
+    </div>
+
     <article className="articles">
         {articles.map(article => {
             return <a href={`/articles/${article.article_id}`} className="article-card" key={article.article_id}>

@@ -11,19 +11,16 @@ export default function Header() {
 
     const themeHandler = () => {
         const newTheme = theme === "dark" ? "light" : "dark"
-        setTheme(newTheme)
         localStorage.setItem("theme", newTheme);
         root.className = theme
+        setTheme(newTheme)
     }
 
     const userHandler = () => {
-        /* --- BELOW WORKING BUT UI NOT UPDATING WHEN USER SIGNED ON --- */
-        // const userLoggedIn = user.username === "" ? {username: "weegembump"} : {username: ""}
-        // const stringified = JSON.stringify(userLoggedIn)
-        // setUser(stringified)
-        // localStorage.setItem("user", stringified);
-
-        user.username ? setUser({username: ""}) : setUser({username: "weegembump"})
+        const userLoggedIn = user.username === "" ? {username: "weegembump"} : {username: ""}
+        const stringified = JSON.stringify(userLoggedIn)
+        localStorage.setItem("user", stringified);
+        setUser(userLoggedIn)
     }
 
     return <header className="header">
