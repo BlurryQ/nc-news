@@ -110,14 +110,26 @@ export default function Comments() {
 
 
 
-    const [commentVotes, setCommentVotes] = useState(0)
-    const [commentVotedOn, setArticleVotedOn] = useState(false)
+    const [commentVotes, setCommentVotes] = useState({})
+    const [commentVotedOn, setCommentVotedOn] = useState(false)
     const [commentVoteError, setCommentVoteError] = useState(false)
-    
 
+    const setVoteClass = (button, buttonPressed, alreadyVoted) => {
+        const voteButtons = document.getElementsByName(`comment-vote-${commentID.current}`)
+        voteButtons.forEach(button => button.classList.remove("voted"))
+        if(alreadyVoted) {
+            button.classList.remove("voted")
+            setCommentVotedOn(false)
+        }
+        else {
+            button.classList.add("voted")
+            setCommentVotedOn(buttonPressed)
+        }
+    }
 
     const likeHandler = (e) => {
-        const comment_id = 0; //need to get this
+        const IDandVotes = e.target.value 
+        commentID.current = e.target.value 
         setCommentVoteError(false)
         if(!user.username) {
             setCommentVoteError("Please sign in to vote")
@@ -128,21 +140,32 @@ export default function Comments() {
         const alreadyVoted = button.classList[1]
         setVoteClass(button, buttonPressed, alreadyVoted)
         const adjust = voteAdjustment(buttonPressed, alreadyVoted, commentVotedOn)
-        setCommentVotes(commentVotes + adjust)
-        patchComment(`${comment_id}`,{ inc_votes: adjust })
+
+        if(commentVotes[commentID.current] === undefined) {
+            commentObj[commentID.current] += adjust
+        } else {
+            commentObj = {...commentVotes}
+            commentObj[commentID.current] += adjust
+        }
+        setCommentVotes(commentObj)
+        patchComment(`${commentID.current}`,{ inc_votes: adjust })
         .then(() => {
+            setCommentVotes(commentObj) 
             setCommentVoteError(false)
         })
         .catch(err => {
             setVoteClass(button, buttonPressed, alreadyVoted)
-            const voteButtons = document.getElementsByName(`comment-vote-${comment_id}`)
+            const voteButtons = document.getElementsByName(`comment-vote-${commentID.current}`)
             voteButtons.forEach(button => button.classList.remove("voted"))
+            commentObj[commentID.current] -= adjust
+            setCommentVotes(commentObj)
             console.error(err);
             setCommentVoteError("Error has occured, please try again later")
-            setCommentVotes(commentVotes)
         })
     }
 
+    let commentObj = {}
+    comments.forEach(comment => commentObj[comment.comment_id] = comment.votes)
 
     return <>
         {hasCommentsErrored ? <p>Error loading comments...</p> : null}
@@ -191,8 +214,9 @@ export default function Comments() {
                         <div></div>
                         </> :
                             <>
-                            <button className="like-button">{comment.votes}</button>
-                            <button className="dislike-button"></button>
+                            <button onClick={likeHandler} value={`${comment.comment_id}`} name={`comment-vote-${comment.comment_id}`} className="like-button">{typeof commentVotes[comment.comment_id] === "number" ? commentVotes[comment.comment_id] : comment.votes}</button>
+                            <button onClick={likeHandler} value={`${comment.comment_id}`} name={`comment-vote-${comment.comment_id}`} className="dislike-button"></button>
+                            {commentVoteError ? <p className="comment-vote-error">{commentVoteError}</p> : null}
                         </>
                         }
                         <p>{format((comment.created_at), "HH:mm, dd MMM yy")}</p>

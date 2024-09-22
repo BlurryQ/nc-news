@@ -63,7 +63,7 @@ export default function Articles() {
     <div className="filters">
         <div className="sort-filter">
             <label  htmlFor="sort">Sort by:</label>
-                <select onClick={filterHandler} id="sort">
+                <select onChange={filterHandler} id="sort">
                 <option value={sortFilter}>Current: {optionNames[sortFilter]}</option>
                 <option value="created_at">Created at</option>
                 <option value="votes">Votes</option>
@@ -72,7 +72,7 @@ export default function Articles() {
         </div>
         <div className="order-filter">
             <label htmlFor="order">Ordered by:</label>
-                <select onClick={filterHandler} id="order">
+                <select onChange={filterHandler} id="order">
                 <option value={orderFilter}>Current: {optionNames[orderFilter]}</option>
                 <option value="desc">{sortFilter === "created_at" ? "Most recent first" : "Largest first"}</option>
                 <option value="asc">{sortFilter === "created_at" ? "Oldest first" : "Smallest first"}</option>
