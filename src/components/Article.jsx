@@ -46,7 +46,7 @@ export default function Article() {
 
     if(hasError) return <section className="page-not-found"></section>
 
-    const setVoteClass = (button, buttonPressed, alreadyVoted) => {
+    const toggleVoteClass = (button, buttonPressed, alreadyVoted) => {
         if(alreadyVoted) {
             button.classList.remove("voted")
             setArticleVotedOn(false)
@@ -66,7 +66,7 @@ export default function Article() {
         const button = e.target
         const buttonPressed = button.classList[0]
         const alreadyVoted = button.classList[1]
-        setVoteClass(button, buttonPressed, alreadyVoted)
+        toggleVoteClass(button, buttonPressed, alreadyVoted)
         const adjust = voteAdjustment(buttonPressed, alreadyVoted, articleVotedOn)
         setArticleVotes(articleVotes + adjust)
         patchArticles(`${article_id}`,{ inc_votes: adjust })
@@ -74,7 +74,7 @@ export default function Article() {
             setArticleVoteError(false)
         })
         .catch(err => {
-            setVoteClass(button, buttonPressed, alreadyVoted)
+            toggleVoteClass(button, buttonPressed, alreadyVoted)
             const voteButtons = document.getElementsByName("vote")
             voteButtons.forEach(button => button.classList.remove("voted"))
             console.error(err);
