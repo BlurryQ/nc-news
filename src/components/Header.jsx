@@ -1,6 +1,6 @@
 import '../styles/header.css'
 import { ThemeContext, UserContext } from "../contexts/Contexts"
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 
 export default function Header() {
     const { theme, setTheme } = useContext(ThemeContext)
