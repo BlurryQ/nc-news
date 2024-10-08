@@ -52,6 +52,14 @@ Now this has been done install all the npm dependencies by running the following
 npm install
 ```
 
+### 5. Install Dependencies
+
+Once this has installed you can type the following into terminal to run the project.
+
+```
+npm run dev
+```
+
 ### Northcoders
 
 This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
