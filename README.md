@@ -44,7 +44,7 @@ The next step is cloning this to your local device using the follwoing command, 
 git clone github.com/your-username/nc-news
 ```
 
-### 4. Install Dependencies
+### 3. Install Dependencies
 
 Now this has been done install all the npm dependencies by running the following command in your terminal/ cli:
 
@@ -52,7 +52,7 @@ Now this has been done install all the npm dependencies by running the following
 npm install
 ```
 
-### 5. Run Project
+### 4. Run Project
 
 Once this has installed you can type the following into terminal to run the project.
 
