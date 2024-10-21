@@ -52,7 +52,7 @@ Now this has been done install all the npm dependencies by running the following
 npm install
 ```
 
-### 5. Install Dependencies
+### 5. Run Project
 
 Once this has installed you can type the following into terminal to run the project.
 
