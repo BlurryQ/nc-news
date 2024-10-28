@@ -2,7 +2,7 @@
 
 **Hosted site** [NC News](https://blurryqs-nc-news.netlify.app/articles)
 
-Northcoders News - a social news aggregation, web content rating and discussion website.
+![NC News Screenshot](./src/styles/img/demo.png)
 
 Northcoders News is a social news aggregation, web content rating, and discussion website. Articles are divided into various topics, and each one can be rated by users through upvotes and downvotes, using the provided API. Users can also leave comments on articles, fostering discussions.
 
