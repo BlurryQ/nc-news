@@ -3,14 +3,7 @@ export default function voteAdjustment(
   alreadyVoted,
   previousVoted
 ) {
-  console.log(
-    "buttonPressed",
-    buttonPressed,
-    "alreadyVoted",
-    alreadyVoted,
-    "previousVoted",
-    previousVoted
-  );
+
   let adjust = 1;
   if (buttonPressed === "dislike-button") adjust = -1;
   if (alreadyVoted) {
