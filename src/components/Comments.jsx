@@ -19,49 +19,49 @@ export default function Comments() {
     const [checkDeleteComment, setCheckDeleteComment] = useState(false)
     const [deleteComment, setDeleteComment] = useState(false)
     const [deleteCommentError, setDeleteCommentError] = useState(false)
-    const {user} = useContext(UserContext)
-    const {article_id} = useParams()
+    const { user } = useContext(UserContext)
+    const { article_id } = useParams()
 
     useEffect(() => {
         setIsLoadingComments(true)
         setHasCommentsErrored(false)
         getArticles(`${article_id}/comments`)
-        .then((data) => {
-            setIsLoadingComments(false)
-            setHasCommentsErrored(false)
-            setComments(data.comments)
-        })
-        .catch(err => {
-            console.error(err);
-            setIsLoadingComments(false)
-            setHasCommentsErrored(true)
-        })
-    },[user])
+            .then((data) => {
+                setIsLoadingComments(false)
+                setHasCommentsErrored(false)
+                setComments(data.comments)
+            })
+            .catch(err => {
+                console.error(err);
+                setIsLoadingComments(false)
+                setHasCommentsErrored(true)
+            })
+    }, [user])
 
     const commentHandler = (e) => {
         setHasPostingCommentError(false)
         const buttonType = e.target.type
-        if(buttonType === "submit") {
+        if (buttonType === "submit") {
             e.preventDefault()
             e.target.disabled = true
-            if(!commentBody){
-            e.target.disabled = false
-            return setHasPostingCommentError("No message found, please try again")
+            if (!commentBody) {
+                e.target.disabled = false
+                return setHasPostingCommentError("No message found, please try again")
             }
             postArticles(`${article_id}/comment`,
                 { username: user.username, body: commentBody }
             )
-            .then((data) => {
-                e.target.disabled = false
-                setHasPostingCommentError(false)
-                comments.unshift(data.comment)
-                setCommentBody("")
-            })
-            .catch(err => {
-                e.target.disabled = false
-                console.error(err);
-                setHasPostingCommentError("Error posting comment, please try again later")
-            })
+                .then((data) => {
+                    e.target.disabled = false
+                    setHasPostingCommentError(false)
+                    comments.unshift(data.comment)
+                    setCommentBody("")
+                })
+                .catch(err => {
+                    e.target.disabled = false
+                    console.error(err);
+                    setHasPostingCommentError("Error posting comment, please try again later")
+                })
         }
         else setCommentBody(e.target.value)
     }
@@ -76,37 +76,37 @@ export default function Comments() {
 
     const confirmDeletion = (e) => {
         const result = e.target.textContent
-        if(result === "no") return setCheckDeleteComment(false)
+        if (result === "no") return setCheckDeleteComment(false)
         e.preventDefault()
         setDeleteComment(true)
     }
 
     useEffect(() => {
         setDeleteCommentError(false)
-        if(!commentID.current || !deleteComment) return
+        if (!commentID.current || !deleteComment) return
         deleteArticles(commentID.current)
-        .then(() => {
-            setDeleteComment(false)
-            setDeleteCommentError(false)
-            setCheckDeleteComment(false)
-            const updatedComments = comments.filter(comment => Number(commentID.current) !== comment.comment_id)
-            updatedComments.unshift(  {
-                body: "Comment successfully deleted",
-                votes: 0,
-                author: "admin",
-                article_id: commentID.current,
-                created_at: Date.now(),
-              })
-            setComments(updatedComments)
-            commentID.current = 0
-        })
-        .catch((err =>{
-            console.log(err);
-            setDeleteComment("Error deleting comment, please try again later")
-            setDeleteCommentError(true)
-            setCheckDeleteComment(false)
-        }))
-    },[deleteComment])
+            .then(() => {
+                setDeleteComment(false)
+                setDeleteCommentError(false)
+                setCheckDeleteComment(false)
+                const updatedComments = comments.filter(comment => Number(commentID.current) !== comment.comment_id)
+                updatedComments.unshift({
+                    body: "Comment successfully deleted",
+                    votes: 0,
+                    author: "admin",
+                    article_id: commentID.current,
+                    created_at: Date.now(),
+                })
+                setComments(updatedComments)
+                commentID.current = 0
+            })
+            .catch((err => {
+                console.log(err);
+                setDeleteComment("Error deleting comment, please try again later")
+                setDeleteCommentError(true)
+                setCheckDeleteComment(false)
+            }))
+    }, [deleteComment])
 
 
 
@@ -117,7 +117,7 @@ export default function Comments() {
     const setVoteClass = (button, buttonPressed, alreadyVoted) => {
         const voteButtons = document.getElementsByName(`comment-vote-${commentID.current}`)
         voteButtons.forEach(button => button.classList.remove("voted"))
-        if(alreadyVoted) {
+        if (alreadyVoted) {
             button.classList.remove("voted")
             setCommentVotedOn(false)
         }
@@ -128,10 +128,10 @@ export default function Comments() {
     }
 
     const likeHandler = (e) => {
-        const IDandVotes = e.target.value 
-        commentID.current = e.target.value 
+        const IDandVotes = e.target.value
+        commentID.current = e.target.value
         setCommentVoteError(false)
-        if(!user.username) {
+        if (!user.username) {
             setCommentVoteError("Please sign in to vote")
             return
         }
@@ -141,27 +141,27 @@ export default function Comments() {
         setVoteClass(button, buttonPressed, alreadyVoted)
         const adjust = voteAdjustment(buttonPressed, alreadyVoted, commentVotedOn)
 
-        if(commentVotes[commentID.current] === undefined) {
+        if (commentVotes[commentID.current] === undefined) {
             commentObj[commentID.current] += adjust
         } else {
-            commentObj = {...commentVotes}
+            commentObj = { ...commentVotes }
             commentObj[commentID.current] += adjust
         }
         setCommentVotes(commentObj)
-        patchComment(`${commentID.current}`,{ inc_votes: adjust })
-        .then(() => {
-            setCommentVotes(commentObj) 
-            setCommentVoteError(false)
-        })
-        .catch(err => {
-            setVoteClass(button, buttonPressed, alreadyVoted)
-            const voteButtons = document.getElementsByName(`comment-vote-${commentID.current}`)
-            voteButtons.forEach(button => button.classList.remove("voted"))
-            commentObj[commentID.current] -= adjust
-            setCommentVotes(commentObj)
-            console.error(err);
-            setCommentVoteError("Error has occured, please try again later")
-        })
+        patchComment(`${commentID.current}`, { inc_votes: adjust })
+            .then(() => {
+                setCommentVotes(commentObj)
+                setCommentVoteError(false)
+            })
+            .catch(err => {
+                setVoteClass(button, buttonPressed, alreadyVoted)
+                const voteButtons = document.getElementsByName(`comment-vote-${commentID.current}`)
+                voteButtons.forEach(button => button.classList.remove("voted"))
+                commentObj[commentID.current] -= adjust
+                setCommentVotes(commentObj)
+                console.error(err);
+                setCommentVoteError("Error has occured, please try again later")
+            })
     }
 
     let commentObj = {}
@@ -174,50 +174,50 @@ export default function Comments() {
             color="red"
             size={20}
             margin={20}
-            cssOverride={{margin: "auto"}}
-            aria-label="Loading Spinner"/> : null}
+            cssOverride={{ margin: "auto" }}
+            aria-label="Loading Spinner" /> : null}
 
         <section id="comments" className="comments-section">
             {user.username ? <form className="comment-form" action="patch">
                 <label htmlFor="comment-body">Comment:</label>
                 {hasPostingCommentError ? <span className="comment-error">{hasPostingCommentError}</span> : null}
-                <textarea onChange={commentHandler} name="comment" cols="50" rows="5" value={commentBody}/>
+                <textarea onChange={commentHandler} name="comment" cols="50" rows="5" value={commentBody} />
                 <button onClick={commentHandler}>Post</button>
             </form> : <p className="comment-form">Sign in to post a comment</p>}
 
             {comments < 1 ? <div className="comment-container">
-                    <p className="comment-body">"No comments yet. Be the first to share your thoughts!"</p>
-                </div> 
-                : null} 
-            {comments.map(comment=>{
+                <p className="comment-body">"No comments yet. Be the first to share your thoughts!"</p>
+            </div>
+                : null}
+            {comments.map(comment => {
                 return <div key={`${comment.comment_id}`} className="comment-container">
-                    <p className={`comment-body ${comment.author === "admin" ? "successful-deletion" : null}` }>"{comment.body}"</p>
+                    <p className={`comment-body ${comment.author === "admin" ? "successful-deletion" : null}`}>"{comment.body}"</p>
                     <div className="comment-details">
-                        <p className={`article-author ${comment.author === "admin" ? "successful-deletion" : null}` }>~ {comment.author}</p>
-                        
+                        <p className={`article-author ${comment.author === "admin" ? "successful-deletion" : null}`}>~ {comment.author}</p>
+
                         {user.username === comment.author ? <>
-                            {checkDeleteComment && comment.comment_id === Number(commentID.current) ? 
-                            <>
-                                <div className="confirm">
-                                    <button onClick={confirmDeletion} className="yes">yes</button>
-                                    <button onClick={confirmDeletion} className="no">no</button>
-                                </div>
-                                <div></div>
-                            </>
-                            : <>
-                                <button onClick={selectDeleteComment} value={comment.comment_id} className="delete-comment"></button> 
-                                <div></div>
-                            </>}
+                            {checkDeleteComment && comment.comment_id === Number(commentID.current) ?
+                                <>
+                                    <div className="confirm">
+                                        <button onClick={confirmDeletion} className="yes">yes</button>
+                                        <button onClick={confirmDeletion} className="no">no</button>
+                                    </div>
+                                    <div></div>
+                                </>
+                                : <>
+                                    <button onClick={selectDeleteComment} value={comment.comment_id} className="delete-comment"></button>
+                                    <div></div>
+                                </>}
                         </>
-                        : comment.author === "admin" ? <>
-                        <div></div>
-                        <div></div>
-                        </> :
-                            <>
-                            <button onClick={likeHandler} value={`${comment.comment_id}`} name={`comment-vote-${comment.comment_id}`} className="like-button">{typeof commentVotes[comment.comment_id] === "number" ? commentVotes[comment.comment_id] : comment.votes}</button>
-                            <button onClick={likeHandler} value={`${comment.comment_id}`} name={`comment-vote-${comment.comment_id}`} className="dislike-button"></button>
-                            {commentVoteError ? <p className="comment-vote-error">{commentVoteError}</p> : null}
-                        </>
+                            : comment.author === "admin" ? <>
+                                <div></div>
+                                <div></div>
+                            </> :
+                                <>
+                                    <button onClick={likeHandler} value={`${comment.comment_id}`} name={`comment-vote-${comment.comment_id}`} className="like-button">{typeof commentVotes[comment.comment_id] === "number" ? commentVotes[comment.comment_id] : comment.votes}</button>
+                                    <button onClick={likeHandler} value={`${comment.comment_id}`} name={`comment-vote-${comment.comment_id}`} className="dislike-button"></button>
+                                    {commentVoteError ? <p className="comment-vote-error">{commentVoteError}</p> : null}
+                                </>
                         }
                         <p>{format((comment.created_at), "HH:mm, dd MMM yy")}</p>
                         {checkDeleteComment && comment.comment_id === Number(commentID.current) ? <p className="confirm-comment-delete">Are you sure you want to delete this?</p> : null}
