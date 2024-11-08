@@ -6,7 +6,7 @@
 
 **Hosted site** [NC News](https://blurryqs-nc-news.netlify.app/articles)
 
-Northcoders News is a social news aggregation, web content rating, and discussion website. Articles are divided into various topics, and each one can be rated by users through upvotes and downvotes, using the provided API. Users can also leave comments on articles, fostering discussions. This project demonstrates how to consume RESTful APIs for managing articles and comments. It enables users to perform full CRUD (Create, Read, Update, Delete) operations on both articles and comments.
+Northcoders News is a platform for sharing and discussing news across a variety of topics. Users can upvote or downvote articles, leave comments, and get involved in active discussions. The project is built on RESTful API principles, allowing for full CRUD functionality (users can create, read, update, and delete articles and comments). This project demonstrates effective REST API consumption and dynamic handling of user interactions.
 
 ## Requirements
 
