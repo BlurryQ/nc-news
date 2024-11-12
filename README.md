@@ -12,7 +12,7 @@ Northcoders News is a platform for sharing and discussing news across a variety 
 
 **Node:** v20.12.2 +
 
-## Dependancies
+## Dependencies
 
 [React](https://react.dev/) A JavaScript library for building user interfaces.<br>
 [Vite](https://vitejs.dev/) A fast and modern build tool optimized for front-end development, offering quick server startup and hot module replacement.<br>
